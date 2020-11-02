@@ -1,1 +1,6 @@
-//module outputs should be defined and documented here.
+
+
+output project_accounts {
+	value = aws_organizations_account.project_accounts
+}
+
