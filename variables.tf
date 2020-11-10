@@ -21,3 +21,9 @@ variable "project" {
 		}))
 	})
 }
+
+variable "org_admin_role_name" {
+	description = "The role name that will be created/set as the default cross-account admin role for accounts within an organization."
+	type = string
+	default = "OrganizationAccountAccessRole"
+}
