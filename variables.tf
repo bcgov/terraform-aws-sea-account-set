@@ -15,6 +15,7 @@ variable "project" {
 	type = object({
 		identifier = string
 		name = string
+		tags = map(string)
 		accounts = list(object({
 			name = string
 			environment = string
