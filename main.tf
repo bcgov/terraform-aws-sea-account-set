@@ -14,7 +14,7 @@ module "lz_info" {
 locals {
 	ous_by_name = {for ou in module.lz_info.workload_ous : lower(ou.name) => ou }
 
-	project_tags = lookup(var.project.accounts, "tags", {})
+	project_tags = lookup(var.project, "tags", {})
 }
 
 resource "aws_organizations_account" "project_accounts" {
