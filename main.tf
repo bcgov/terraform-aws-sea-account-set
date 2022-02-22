@@ -8,7 +8,7 @@ terraform {
 }
 
 module "lz_info" {
-  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.3"
+  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.4"
 }
 
 locals {
