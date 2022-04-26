@@ -1,14 +1,5 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "3.11.0"
-    }
-  }
-}
-
 module "lz_info" {
-  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.4"
+  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.5"
 }
 
 locals {
