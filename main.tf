@@ -1,5 +1,5 @@
 module "lz_info" {
-  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.6"
+  source = "github.com/BCDevOps/terraform-aws-sea-organization-info?ref=v0.0.7"
 }
 
 locals {
