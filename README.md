@@ -11,11 +11,53 @@ This repo provides a starting point for users who want to create valid Terraform
 <!--- Example: <library_name> - [![GitHub](<shield_icon_link>)](<path_to_library_LICENSE>) --->
 
 ## Project Status
+
 - [x] Development
 - [ ] Production/Maintenance
 
-## Documentation
-<!--- Point to another readme or create a GitHub Pages (https://guides.github.com/features/pages/) --->
+# Documentation
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_lz_info"></a> [lz\_info](#module\_lz\_info) | github.com/BCDevOps/terraform-aws-sea-organization-info | v0.0.7 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_organizations_account.project_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_account) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_account_email_domain"></a> [account\_email\_domain](#input\_account\_email\_domain) | The domain to use as the suffix for the email accounts associated with the accounts created by the module. Don't change unless you know what you are doing. In other words, don't change. | `string` | n/a | yes |
+| <a name="input_account_email_prefix"></a> [account\_email\_prefix](#input\_account\_email\_prefix) | The prefix to use for the email accounts associated with the accounts created by the module. Don't change unless you know what you are doing. In other words, don't change. | `string` | n/a | yes |
+| <a name="input_close_on_deletion"></a> [close\_on\_deletion](#input\_close\_on\_deletion) | true means that the account will be closed when it is deleted.  false means that the account be removed from the aws org when it is deleted. | `bool` | `false` | no |
+| <a name="input_org_admin_role_name"></a> [org\_admin\_role\_name](#input\_org\_admin\_role\_name) | The role name that will be created/set as the default cross-account admin role for accounts within an organization. | `string` | `"OrganizationAccountAccessRole"` | no |
+| <a name="input_project"></a> [project](#input\_project) | List of projects that product teams' workloads run within. | <pre>object({<br>    identifier = string<br>    name       = string<br>    tags       = map(string)<br>    accounts = list(object({<br>      name        = string<br>      environment = string<br>    }))<br>  })</pre> | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_project_accounts"></a> [project\_accounts](#output\_project\_accounts) | n/a |
+<!-- END_TF_DOCS -->
 
 ## Getting Started
 <!--- setup env vars, secrets, instructions... --->
