@@ -17,8 +17,8 @@ variable "project" {
     name       = string
     tags       = map(string)
     accounts = list(object({
-      name        = string
-      environment = string
+      name               = string
+      environment        = string
       enterprise_support = optional(string, null)
     }))
   })

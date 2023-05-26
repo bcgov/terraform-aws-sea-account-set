@@ -4,11 +4,11 @@ module "lz_info" {
 
 locals {
   ous_by_name = { for ou in module.lz_info.workload_ous : lower(ou.name) => ou }
-    entp_support_accounts = { 
+  entp_support_accounts = {
     for account in var.project.accounts : account.environment => {
-      id = aws_organizations_account.project_accounts[account.environment].id,
+      id                 = aws_organizations_account.project_accounts[account.environment].id,
       enterprise_support = account["enterprise_support"]
-    } if account["enterprise_support"] != null 
+    } if account["enterprise_support"] != null
   }
 
   project_tags = lookup(var.project, "tags", {})
@@ -41,7 +41,7 @@ resource "null_resource" "enterprise_support" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command = <<-EOT
+    command     = <<-EOT
     temp_aws_config="temp_aws_config_${each.value.id}"
     trap 'rm -f "./$${temp_aws_config}"' EXIT
     case_subject_enable="Please enable AWS Enterprise on ramp support on my account ${each.value.id}"
@@ -100,6 +100,6 @@ resource "null_resource" "enterprise_support" {
     fi
     EOT
   }
-  
+
   depends_on = [aws_organizations_account.project_accounts]
 }
