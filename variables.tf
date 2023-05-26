@@ -19,6 +19,7 @@ variable "project" {
     accounts = list(object({
       name        = string
       environment = string
+      enterprise_support = optional(string, null)
     }))
   })
 }
