@@ -29,6 +29,7 @@ This repo provides a starting point for users who want to create valid Terraform
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
@@ -41,6 +42,7 @@ This repo provides a starting point for users who want to create valid Terraform
 | Name | Type |
 |------|------|
 | [aws_organizations_account.project_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_account) | resource |
+| [null_resource.enterprise_support](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ## Inputs
 
@@ -50,7 +52,7 @@ This repo provides a starting point for users who want to create valid Terraform
 | <a name="input_account_email_prefix"></a> [account\_email\_prefix](#input\_account\_email\_prefix) | The prefix to use for the email accounts associated with the accounts created by the module. Don't change unless you know what you are doing. In other words, don't change. | `string` | n/a | yes |
 | <a name="input_close_on_deletion"></a> [close\_on\_deletion](#input\_close\_on\_deletion) | true means that the account will be closed when it is deleted.  false means that the account be removed from the aws org when it is deleted. | `bool` | `false` | no |
 | <a name="input_org_admin_role_name"></a> [org\_admin\_role\_name](#input\_org\_admin\_role\_name) | The role name that will be created/set as the default cross-account admin role for accounts within an organization. | `string` | `"OrganizationAccountAccessRole"` | no |
-| <a name="input_project"></a> [project](#input\_project) | List of projects that product teams' workloads run within. | <pre>object({<br>    identifier = string<br>    name       = string<br>    tags       = map(string)<br>    accounts = list(object({<br>      name        = string<br>      environment = string<br>    }))<br>  })</pre> | n/a | yes |
+| <a name="input_project"></a> [project](#input\_project) | List of projects that product teams' workloads run within. | <pre>object({<br>    identifier = string<br>    name       = string<br>    tags       = map(string)<br>    accounts = list(object({<br>      name               = string<br>      environment        = string<br>      enterprise_support = optional(string, null)<br>    }))<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
