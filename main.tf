@@ -43,12 +43,16 @@ resource "null_resource" "enterprise_support" {
     interpreter = ["/bin/bash", "-c"]
     command     = <<-EOT
     temp_aws_config="temp_aws_config_${each.value.id}"
-    trap 'rm -f "./$${temp_aws_config}"' EXIT
+    temp_org_role="temp_org_role_${each.value.id}"
+    trap 'rm -f "./$${temp_aws_config}"; rm -f "./$${temp_org_role}"' EXIT
     case_subject_enable="Please enable AWS Enterprise on ramp support on my account ${each.value.id}"
     case_subject_disable="Please disable AWS Enterprise on ramp support on my account ${each.value.id}"
     enterprise_support="${(self.triggers.enterprise_support)}"
-    if [ "${self.triggers.enterprise_support}" == "enable" ]; then
-        case_exists=$(aws support describe-cases --language en --region us-east-1 --query "cases[?subject=='$case_subject_enable']")
+    assume_org_role=$(aws sts assume-role --role-arn arn:aws:iam::334132478648:role/AWSCloudFormationStackSetExecutionRole --role-session-name AWSCLI-Session)
+    echo -e "[profile org_role]\naws_access_key_id = $(echo $assume_org_role | jq -r .Credentials.AccessKeyId)\naws_secret_access_key = $(echo $assume_org_role | jq -r .Credentials.SecretAccessKey)\naws_session_token = $(echo $assume_org_role | jq -r .Credentials.SessionToken)" > $${temp_org_role}
+
+    if [ "${self.triggers.enterprise_support}" == "true" ]; then
+        case_exists=$(AWS_CONFIG_FILE=./$${temp_org_role} aws support describe-cases --profile org_role --language en --region us-east-1 --query "cases[?subject=='$case_subject_enable']")
         # If the case exists, case_exists will not be an empty array
         if [ "$case_exists" != "[]" ]; then
           echo "A case to enable AWS Enterprise on ramp support on account ${each.value.id} already exists."            
@@ -70,8 +74,8 @@ resource "null_resource" "enterprise_support" {
                 echo "Created a new case to enable AWS Enterprise on ramp support on account ${each.value.id}"
             fi
         fi
-    elif [ "${self.triggers.enterprise_support}" == "disable" ]; then
-        case_exists=$(aws support describe-cases --language en --region us-east-1 --query "cases[?subject=='$case_subject_disable']")
+    elif [ "${self.triggers.enterprise_support}" == "false" ]; then
+        case_exists=$(AWS_CONFIG_FILE=./$${temp_org_role} aws support describe-cases --profile org_role --language en --region us-east-1 --query "cases[?subject=='$case_subject_disable']")
         # If the case exists, case_exists will not be an empty array
         if [ "$case_exists" != "[]" ]; then
             echo "A case to disable AWS Enterprise on ramp support on account ${each.value.id} already exists."            
@@ -95,7 +99,7 @@ resource "null_resource" "enterprise_support" {
             fi
         fi
     else
-        echo "Invalid support status. Please provide either 'enable' or 'disable'."
+        echo "Invalid support status. Please provide either 'true' or 'false'."
         exit 1
     fi
     EOT
