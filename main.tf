@@ -48,7 +48,7 @@ resource "null_resource" "enterprise_support" {
     case_subject_enable="Please enable AWS Enterprise on ramp support on my account ${each.value.id}"
     case_subject_disable="Please disable AWS Enterprise on ramp support on my account ${each.value.id}"
     enterprise_support="${(self.triggers.enterprise_support)}"
-    assume_org_role=$(aws sts assume-role --role-arn arn:aws:iam::334132478648:role/AWSCloudFormationStackSetExecutionRole --role-session-name AWSCLI-Session)
+    assume_org_role=$(aws sts assume-role --role-arn arn:aws:iam::${var.master_account_id}:role/AWSCloudFormationStackSetExecutionRole --role-session-name AWSCLI-Session)
     echo -e "[profile org_role]\naws_access_key_id = $(echo $assume_org_role | jq -r .Credentials.AccessKeyId)\naws_secret_access_key = $(echo $assume_org_role | jq -r .Credentials.SecretAccessKey)\naws_session_token = $(echo $assume_org_role | jq -r .Credentials.SessionToken)" > $${temp_org_role}
 
     if [ "${self.triggers.enterprise_support}" == "true" ]; then
