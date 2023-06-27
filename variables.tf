@@ -35,3 +35,8 @@ variable "close_on_deletion" {
   type        = bool
   default     = false
 }
+
+variable "master_account_id" {
+  type        = string
+  description = "Master Account Id"
+}
