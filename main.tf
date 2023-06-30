@@ -70,7 +70,7 @@ resource "null_resource" "enterprise_support" {
                 echo "Support is already enabled for the account ${each.value.id}"
             else
                 # Create a new support case as support is not enabled
-                aws support create-case --subject "$case_subject_enable" --service-code "customer-account" --severity-code "normal" --category-code "other-account-issues" --communication-body "Please enable AWS Enterprise on ramp support on my account ${each.value.id}" --language "en" --cc-email-addresses "cloud.pathfinder@gov.bc.ca" --region us-east-1
+                AWS_CONFIG_FILE=./$${temp_org_role} aws support create-case --profile org_role --subject "$case_subject_enable" --service-code "customer-account" --severity-code "normal" --category-code "other-account-issues" --communication-body "Please enable AWS Enterprise on ramp support on my account ${each.value.id}" --language "en" --cc-email-addresses "cloud.pathfinder@gov.bc.ca" --region us-east-1
                 echo "Created a new case to enable AWS Enterprise on ramp support on account ${each.value.id}"
             fi
         fi
@@ -90,7 +90,7 @@ resource "null_resource" "enterprise_support" {
             # Run the describe-services command to check if support is enabled
             if AWS_CONFIG_FILE=./$${temp_aws_config} aws support describe-services --profile temp --service-code-list "general-info" --region us-east-1 > /dev/null 2>&1; then
                 echo "Support is enabled for the account ${each.value.id} opening a case to disable support"
-                aws support create-case --subject "$case_subject_disable" --service-code "customer-account" --severity-code "normal" --category-code "other-account-issues" --communication-body "Please disable AWS Enterprise on ramp support on my account ${each.value.id}" --language "en" --cc-email-addresses "cloud.pathfinder@gov.bc.ca" --region us-east-1
+                AWS_CONFIG_FILE=./$${temp_org_role} aws support create-case --profile org_role --subject "$case_subject_disable" --service-code "customer-account" --severity-code "normal" --category-code "other-account-issues" --communication-body "Please disable AWS Enterprise on ramp support on my account ${each.value.id}" --language "en" --cc-email-addresses "cloud.pathfinder@gov.bc.ca" --region us-east-1
                 echo "Created a new case to disable AWS Enterprise on ramp support on account ${each.value.id}"
                 
             else
