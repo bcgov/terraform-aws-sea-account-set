@@ -40,3 +40,8 @@ variable "master_account_id" {
   type        = string
   description = "Master Account Id"
 }
+
+variable "SSC_CBRID" {
+  type        = string
+  description = "Shared Services Canada Cloud Business Requirement ID"
+}
