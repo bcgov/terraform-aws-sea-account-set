@@ -48,6 +48,7 @@ This repo provides a starting point for users who want to create valid Terraform
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_SSC_CBRID"></a> [SSC\_CBRID](#input\_SSC\_CBRID) | Shared Services Canada Cloud Business Requirement ID | `string` | n/a | yes |
 | <a name="input_account_email_domain"></a> [account\_email\_domain](#input\_account\_email\_domain) | The domain to use as the suffix for the email accounts associated with the accounts created by the module. Don't change unless you know what you are doing. In other words, don't change. | `string` | n/a | yes |
 | <a name="input_account_email_prefix"></a> [account\_email\_prefix](#input\_account\_email\_prefix) | The prefix to use for the email accounts associated with the accounts created by the module. Don't change unless you know what you are doing. In other words, don't change. | `string` | n/a | yes |
 | <a name="input_close_on_deletion"></a> [close\_on\_deletion](#input\_close\_on\_deletion) | true means that the account will be closed when it is deleted.  false means that the account be removed from the aws org when it is deleted. | `bool` | `false` | no |
