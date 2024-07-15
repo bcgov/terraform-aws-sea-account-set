@@ -23,7 +23,6 @@ resource "aws_organizations_account" "project_accounts" {
   tags = merge({
     Project     = var.project.name
     Environment = each.key
-    SSC_CBRID   = var.SSC_CBRID
   }, local.project_tags)
 
   close_on_deletion = var.close_on_deletion
